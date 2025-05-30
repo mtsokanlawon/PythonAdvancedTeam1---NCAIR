@@ -1,4 +1,4 @@
-## PythonAdvancedTeam1
+## PythonAdvancedTeam1 @ National Centre For Artificial Intelligence and Robotics, Nigeria.
 # Project: RPG Fighter Game
 ## Game Title: **WarWiz**
 Role Playing Combat Game between two characters, a Warrior and a Wizard.
@@ -13,4 +13,5 @@ This project was done by a team of 4:
 - Mercy Okanlawon: A Mechanical Engineering Student from Ladoke Akintola University of Technology, Oyo State. 
 
 Tech Stack: Python
+
 Package: Pygame
