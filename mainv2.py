@@ -33,10 +33,12 @@ WIZARD_SCALE = 3
 WIZARD_OFFSET = [112, 107]
 WIZARD_DATA = [WIZARD_SIZE, WIZARD_SCALE, WIZARD_OFFSET]
 
-# Load music and sounds
+# Load music and sounds effects
+# music
 pygame.mixer.music.load("assets/audio/music.mp3")
 pygame.mixer.music.set_volume(0.5)
 pygame.mixer.music.play(-1, 0.0, 5000)
+# sound effects(fx)
 sword_fx = pygame.mixer.Sound("assets/audio/sword.wav")
 sword_fx.set_volume(0.5)
 magic_fx = pygame.mixer.Sound("assets/audio/magic.wav")
@@ -61,9 +63,11 @@ WARRIOR_ANIMATION_STEPS = [10, 8, 1, 7, 7, 3, 7]
 WIZARD_ANIMATION_STEPS = [8, 8, 1, 8, 8, 3, 7]
 
 # Fonts
+title_font = pygame.font.Font("assets/fonts/turok.ttf", 80)
 count_font = pygame.font.Font("assets/fonts/turok.ttf", 80)
 score_font = pygame.font.Font("assets/fonts/turok.ttf", 30)
 start_font = pygame.font.Font("assets/fonts/turok.ttf", 30)
+menu_font = start_font
 
 def draw_text(text, font, text_color, x, y):
     img = font.render(text, True, text_color)
@@ -86,15 +90,15 @@ def create_fighters(mode):
         f2.is_ai = True
     return f1, f2
 
-# --- Menu loop ---
+# Menu loop
 mode = None
 menu = True
 while menu:
     screen.fill((0, 0, 0))
-    draw_text("WARWIZ", count_font, YELLOW, SCREEN_WIDTH // 2 - 150, 100)
-    draw_text("1 - Player vs Player", start_font, WHITE, SCREEN_WIDTH // 2 - 140, 250)
-    draw_text("2 - Player vs Computer", start_font, WHITE, SCREEN_WIDTH // 2 - 140, 300)
-    draw_text("Q - Quit", start_font, WHITE, SCREEN_WIDTH // 2 - 140, 350)
+    draw_text("WARWIZ", title_font, YELLOW, SCREEN_WIDTH // 2 - 150, 100)
+    draw_text("1 - Player vs Player", menu_font, WHITE, SCREEN_WIDTH // 2 - 140, 250)
+    draw_text("2 - Player vs Computer", menu_font, WHITE, SCREEN_WIDTH // 2 - 140, 300)
+    draw_text("Q - Quit", menu_font, WHITE, SCREEN_WIDTH // 2 - 140, 350)
 
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
@@ -115,6 +119,8 @@ while menu:
 
 # Game setup
 fighter_1, fighter_2 = create_fighters(mode)
+
+# game loop
 run = True
 start = False
 
@@ -160,6 +166,7 @@ while run:
                 intro_count = 3
                 fighter_1, fighter_2 = create_fighters(mode)
 
+        # display concurrent actions after all updates.
         fighter_1.draw(screen)
         fighter_2.draw(screen)
 

@@ -45,7 +45,7 @@ class Fighter():
         self.running = False
         self.attack_type = 0
 
-        # === AI Logic ===
+        # Computer Logic
         if self.is_ai and self.alive and target.alive and not round_over:
             # Move toward the player
             if self.rect.centerx < target.rect.centerx - 100:
@@ -161,7 +161,7 @@ class Fighter():
                     self.attacking = False
                     self.attack_cooldown = 20
 
-            # during attack animation, apply hit once
+        # during attack animation, apply hit damage once
         if self.attacking and not self.attack_has_hit and self.action in [3, 4]:
             attack_range = pygame.Rect(
                 self.rect.centerx - (2 * self.rect.width * self.flip),
@@ -171,7 +171,7 @@ class Fighter():
             )
             if attack_range.colliderect(self.target.rect):
                 self.target.health -= 10
-                self.target.hit = True
+                self.target.hit = True # updates self.hit attribute the target object
                 self.attack_has_hit = True
 
     # def attack(self, target):
