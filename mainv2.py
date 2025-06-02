@@ -152,7 +152,7 @@ while run:
         if event.type == pygame.KEYDOWN:
             if event.key == pygame.K_ESCAPE:
                 paused = not paused
-        if paused:
+        if paused and event.type == pygame.KEYDOWN:
             if event.key == pygame.K_q:
                 run = False
             if event.key == pygame.K_c:
@@ -164,7 +164,7 @@ while run:
                 exit()
 
     if not start:
-        start_text = "Press Key S To Start"
+        start_text = "Press Key 'S' To Start"
         pygame.draw.rect(screen, RED, (295, (SCREEN_HEIGHT / 3) - 5, 410, 50))
         pygame.draw.rect(screen, WHITE, (300, SCREEN_HEIGHT / 3, 400, 40))
         draw_text(start_text, start_font, BLACK, 20 + (SCREEN_WIDTH / 3), SCREEN_HEIGHT / 3)
