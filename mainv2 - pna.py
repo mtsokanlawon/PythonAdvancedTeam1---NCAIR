@@ -15,7 +15,6 @@ RED = (255, 0, 0)
 YELLOW = (255, 255, 0)
 WHITE = (255, 255, 255)
 BLACK = (0, 0, 0)
-PAUSE_MENU_COLOR = (30, 30, 30)
 
 # Define game variables
 intro_count = 3
@@ -91,22 +90,6 @@ def create_fighters(mode):
         f2.is_ai = True
     return f1, f2
 
-# Handle game pausing
-paused = False
-
-def draw_pause_menu(screen, font):
-    menu_surface = pygame.Surface((400, 200))
-    menu_surface.fill(PAUSE_MENU_COLOR)
-    pygame.draw.rect(menu_surface, (200, 200, 200), menu_surface.get_rect(), 4)
-
-    continue_text = font.render("Press C to Continue", True, (255, 255, 255))
-    quit_text = font.render("Press Q to Quit", True, (255, 255, 255))
-
-    menu_surface.blit(continue_text, (50, 50))
-    menu_surface.blit(quit_text, (50, 100))
-
-    screen.blit(menu_surface, (screen.get_width() // 2 - 200, screen.get_height() // 2 - 100))
-
 # Menu loop
 mode = None
 menu = True
@@ -144,73 +127,58 @@ start = False
 while run:
     draw_bg()
 
-    for event in pygame.event.get():
-        if event.type == pygame.QUIT:
-            run = False
-        if event.type == pygame.KEYDOWN and event.key == pygame.K_s:
-            start = True
-        if event.type == pygame.KEYDOWN:
-            if event.key == pygame.K_ESCAPE:
-                paused = not paused
-        if paused:
-            if event.key == pygame.K_q:
-                run = False
-            if event.key == pygame.K_c:
-                paused = False
-
-        # Quit while game is on
-        elif event.type == pygame.KEYDOWN and event.key == pygame.K_DELETE:
-                pygame.quit()
-                exit()
-
     if not start:
         start_text = "Press Key S To Start"
         pygame.draw.rect(screen, RED, (295, (SCREEN_HEIGHT / 3) - 5, 410, 50))
         pygame.draw.rect(screen, WHITE, (300, SCREEN_HEIGHT / 3, 400, 40))
         draw_text(start_text, start_font, BLACK, 20 + (SCREEN_WIDTH / 3), SCREEN_HEIGHT / 3)
     else:
-        if not paused:
-            draw_health_bar(fighter_1.health, 20, 20)
-            draw_health_bar(fighter_2.health, 580, 20)
-            draw_text("P1: " + str(score[0]), score_font, RED, 20, 60)
-            draw_text("P2: " + str(score[1]), score_font, RED, 580, 60)
+        draw_health_bar(fighter_1.health, 20, 20)
+        draw_health_bar(fighter_2.health, 580, 20)
+        draw_text("P1: " + str(score[0]), score_font, RED, 20, 60)
+        draw_text("P2: " + str(score[1]), score_font, RED, 580, 60)
 
-            if intro_count <= 0:
-                fighter_1.move(SCREEN_WIDTH, SCREEN_HEIGHT, fighter_2, round_over)
-                fighter_2.move(SCREEN_WIDTH, SCREEN_HEIGHT, fighter_1, round_over)
-            else:
-                draw_text(str(intro_count), count_font, RED, SCREEN_WIDTH / 2, SCREEN_HEIGHT / 3)
-                if (pygame.time.get_ticks() - last_count_update) >= 1000:
-                    intro_count -= 1
-                    last_count_update = pygame.time.get_ticks()
+        if intro_count <= 0:
+            fighter_1.move(SCREEN_WIDTH, SCREEN_HEIGHT, fighter_2, round_over)
+            fighter_2.move(SCREEN_WIDTH, SCREEN_HEIGHT, fighter_1, round_over)
+        else:
+            draw_text(str(intro_count), count_font, RED, SCREEN_WIDTH / 2, SCREEN_HEIGHT / 3)
+            if (pygame.time.get_ticks() - last_count_update) >= 1000:
+                intro_count -= 1
+                last_count_update = pygame.time.get_ticks()
 
-            fighter_1.update()
-            fighter_2.update()
+        fighter_1.update()
+        fighter_2.update()
 
-            if not round_over:
-                if not fighter_1.alive:
-                    score[1] += 1
-                    round_over = True
-                    round_over_time = pygame.time.get_ticks()
-                elif not fighter_2.alive:
-                    score[0] += 1
-                    round_over = True
-                    round_over_time = pygame.time.get_ticks()
-            else:
-                screen.blit(victory_img, (360, 150))
-                if (pygame.time.get_ticks() - round_over_time) > ROUND_OVER_COOLDOWN:
-                    round_over = False
-                    intro_count = 3
-                    fighter_1, fighter_2 = create_fighters(mode)
+        if not round_over:
+            if not fighter_1.alive:
+                score[1] += 1
+                round_over = True
+                round_over_time = pygame.time.get_ticks()
+            elif not fighter_2.alive:
+                score[0] += 1
+                round_over = True
+                round_over_time = pygame.time.get_ticks()
+        else:
+            screen.blit(victory_img, (360, 150))
+            if (pygame.time.get_ticks() - round_over_time) > ROUND_OVER_COOLDOWN:
+                round_over = False
+                intro_count = 3
+                fighter_1, fighter_2 = create_fighters(mode)
 
-            # display concurrent actions after all updates.
-            fighter_1.draw(screen)
-            fighter_2.draw(screen)
+        # display concurrent actions after all updates.
+        fighter_1.draw(screen)
+        fighter_2.draw(screen)
 
-        if paused:
-                draw_pause_menu(screen, menu_font)
-
-    
+    for event in pygame.event.get():
+        if event.type == pygame.QUIT:
+            run = False
+        if event.type == pygame.KEYDOWN and event.key == pygame.K_s:
+            start = True
+        # Quit while game is on
+        elif event.type == pygame.KEYDOWN and event.key == pygame.K_DELETE:
+                pygame.quit()
+                exit()
 
     pygame.display.update()
     clock.tick(FPS)
