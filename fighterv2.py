@@ -1,6 +1,12 @@
 import pygame
 
 class Fighter():
+    """
+    A class to hold attributes of our player innstances. 
+    It includes:
+    player states, images to be rendered, and other dimmensional
+    and positional player data.
+    """
     def __init__(self, player, x, y, flip, data, sprite_sheet, animation_steps, sound):
         self.player = player
         self.size = data[0]
@@ -24,7 +30,7 @@ class Fighter():
         self.hit = False
         self.health = 100
         self.alive = True
-        self.is_ai = False  # Set externally if this fighter is computer-controlled
+        self.is_ai = False  # Sets to True for Player Vs Computer
 
     def load_images(self, sprite_sheet, animation_steps):
         animation_list = []
@@ -59,7 +65,7 @@ class Fighter():
                     self.attack(target)
                     self.attack_type = 1# if pygame.time.get_ticks() % 2 == 0 else 2
 
-        # === Player Control ===
+        # Player Control for non computer players
         elif not self.is_ai and self.attacking == False and self.alive == True and round_over == False:
             key = pygame.key.get_pressed()
             if self.player == 1:
@@ -99,7 +105,7 @@ class Fighter():
         self.vel_y += GRAVITY
         dy += self.vel_y
 
-        # Stay within screen bounds
+        # Keep opponents within screen bounds
         if self.rect.left + dx < 0:
             dx = -self.rect.left
         if self.rect.right + dx > screen_width:
@@ -122,6 +128,8 @@ class Fighter():
         self.rect.x += dx
         self.rect.y += dy
 
+    # initiate action updates based on keys corresponding
+    # to action index from animation list
     def update(self):
         if self.health <= 0:
             self.health = 0
@@ -141,6 +149,7 @@ class Fighter():
         else:
             self.update_action(0)
 
+        # delay animation change with 0.05 secs
         animation_cooldown = 50
         self.image = self.animation_list[self.action][self.frame_index]
 
@@ -148,6 +157,7 @@ class Fighter():
             self.frame_index += 1
             self.update_time = pygame.time.get_ticks()
 
+        # check for valid frame index for image while animation is on
         if self.frame_index >= len(self.animation_list[self.action]):
             if self.alive == False:
                 self.frame_index = len(self.animation_list[self.action]) - 1
@@ -161,7 +171,7 @@ class Fighter():
                     self.attacking = False
                     self.attack_cooldown = 20
 
-        # during attack animation, apply hit damage once
+        # during attack animation, check for attack on target.
         if self.attacking and not self.attack_has_hit and self.action in [3, 4]:
             attack_range = pygame.Rect(
                 self.rect.centerx - (2 * self.rect.width * self.flip),
@@ -169,6 +179,7 @@ class Fighter():
                 2 * self.rect.width,
                 self.rect.height
             )
+            # update health and prevent multiple updates per hit
             if attack_range.colliderect(self.target.rect):
                 self.target.health -= 10
                 self.target.hit = True # updates self.hit attribute the target object
@@ -185,6 +196,7 @@ class Fighter():
     #             target.hit = True
     #             self.attack_has_hit = True
 
+    # method to initiate attack and it's sound
     def attack(self, target):
         if self.attack_cooldown == 0 and not self.attacking:
             self.attacking = True
@@ -192,13 +204,14 @@ class Fighter():
             self.attack_has_hit = False  # reset damage marker
             self.target = target  # save the target for use in update()
 
-
+    # method to change action based on key inputs from update() method.
     def update_action(self, new_action):
         if new_action != self.action:
             self.action = new_action
-            self.frame_index = 0
+            self.frame_index = 0 # start new action from the first frame i.e index '0'
             self.update_time = pygame.time.get_ticks()
 
+    # method to draw the current image of fighter
     def draw(self, surface):
         img = pygame.transform.flip(self.image, self.flip, False)
         surface.blit(img, (self.rect.x - (self.offset[0] * self.image_scale), self.rect.y - (self.offset[1] * self.image_scale)))
