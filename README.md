@@ -11,6 +11,14 @@ The project has 2 versions of file, the first version has the most basic functio
 - The characters
 - and the health checks
 
+The revision has improved functionalities as suggested by our instructors making the UI/UX more relatable, the features are:
+
+- The Start Menu
+- The option for a multiplayer
+- The option for a Single player featuring the Computer
+- The option to pause and resume the game
+- Finally, the option to quit the game.
+
 ### About The Contributors
 
 
