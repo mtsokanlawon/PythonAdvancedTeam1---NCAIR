@@ -22,7 +22,7 @@ The revision has improved functionalities as suggested by our instructors making
 ### About The Contributors
 
 
-#### This project was done by a motivated team of 4:
+#### This project was done by a motivated team of 4 with their affiliations:
 
 - victor Okafor: A Mechatronics engineering Student from Afe Babalola University Ado Ekiti, Ekiti State.
 - Kelechi Iroegbulem: A Electrical electronic Student from Ajayi Crowther University, Oyo State.
