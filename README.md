@@ -1,11 +1,12 @@
-## PythonAdvancedTeam1 @ National Centre For Artificial Intelligence and Robotics, Nigeria.
+## PythonAdvancedTeam1 at the National Centre For Artificial Intelligence and Robotics, Nigeria.
 # Project: RPG Fighter Game
 ## Game Title: **WarWiz**
 Role Playing Combat Game between two characters, a Warrior and a Wizard.
 
 ### About The Contributors
-This project was done by a team of 4:
 
+
+# This project was done by a motivated team of 4:
 
 - victor Okafor: A Mechatronics engineering Student from Afe Babalola University Ado Ekiti, Ekiti State.
 - Kelechi Iroegbulem: A Electrical electronic Student from Ajayi Crowther University, Oyo State.
