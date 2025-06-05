@@ -3,6 +3,14 @@
 ## Game Title: **WarWiz**
 Role Playing Combat Game between two characters, a Warrior and a Wizard.
 
+### About The Game
+
+The project has 2 versions of file, the first version has the most basic functionality:
+
+- The game environment
+- The characters
+- and the health checks
+
 ### About The Contributors
 
 
