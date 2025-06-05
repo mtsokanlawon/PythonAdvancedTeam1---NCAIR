@@ -74,17 +74,19 @@ menu_font = start_font
 def draw_text(text, font, text_color, x, y):
     img = font.render(text, True, text_color)
     screen.blit(img, (x, y))
-
+    
+# this handles the background size, since the original size is bigger, this scales it down to fit perfectly in the game window 
 def draw_bg():
     scaled_bg = pygame.transform.scale(bg_image, (SCREEN_WIDTH, SCREEN_HEIGHT))
     screen.blit(scaled_bg, (0, 0))
-
+    
+# this handles the rectangular bar that displays the health size, give full health yellow and as the player is beign attacked it displays red color 
 def draw_health_bar(health, x, y):
     ratio = health / 100
     pygame.draw.rect(screen, WHITE, (x - 5, y - 5, 410, 40))
     pygame.draw.rect(screen, RED, (x, y, 400, 30))
     pygame.draw.rect(screen, YELLOW, (x, y, 400 * ratio, 30))
-
+# this handles the fighters parameters, and the instructs the computer to play using ai when the user choses player vs computer
 def create_fighters(mode) -> tuple:
     f1 = Fighter(1, 200, 310, False, WARRIOR_DATA, warrior_sheet, WARRIOR_ANIMATION_STEPS, sword_fx)
     f2 = Fighter(2, 700, 310, True, WIZARD_DATA, wizard_sheet, WIZARD_ANIMATION_STEPS, magic_fx)
