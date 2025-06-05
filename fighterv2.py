@@ -131,6 +131,7 @@ class Fighter():
     # initiate action updates based on keys corresponding
     # to action index from animation list
     def update(self):
+        # check what actions the player is performing
         if self.health <= 0:
             self.health = 0
             self.alive = False
